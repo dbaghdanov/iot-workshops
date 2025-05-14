@@ -1,0 +1,14 @@
+{
+  "name": "AWS IoT Workshop Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "extensions": [
+    "amazonwebservices.aws-toolkit-vscode",
+    "ms-python.python"
+  ],
+  "postCreateCommand": "aws --version && python3 --version && java -version"
+}

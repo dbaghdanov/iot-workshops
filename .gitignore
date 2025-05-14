@@ -1,0 +1,5 @@
+# Ignore all .pem files
+**/*.pem
+
+# Ignore nested vars.env files
+**/vars.env
