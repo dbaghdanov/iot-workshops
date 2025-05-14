@@ -53,3 +53,67 @@ This clean up script will:
 - Delete the Policy
 - Delete the Thing
 
+## Lab 5.1
+
+This lab has us update a shadow document, which our client will listen for delta changes and take additional actions if the `MOTOR` is `ON`.
+
+[Lab 5.1 - Thing Shadows with the AWS IoT Device SDK Python v2](https://catalog.workshops.aws/aws-iot-immersionday-workshop/en-US/aws-iot-core/device-sdk-v2/lab51-thingshadows)
+
+**To setup**:
+```
+cd labs/5
+chmod 744 setup.sh cleanup.sh
+./setup.sh
+```
+
+This will:
+- Create a `shadow-ratchet` IoT Thing
+- Create an attach the IoT Policy
+- Create and attach a certificate and download the keys
+- Updates `shadow.py` with the Thing endpoint
+
+**To run**:
+You can then run `python3 shadow.py` to start it, which will start publishing to the `data/temperature` topic.  While it's running, update the AWS IoT > Manage > Things > shadow-ratchet > Classic Shadow > Device Shadow Document:
+```json
+{
+  "state": {
+    "desired": {
+      "MOTOR": "ON"
+    },
+    "reported": {
+      "MOTOR": "ON"
+    }
+  }
+}
+```
+
+You will see the client updated by the document change, and start to publish the motor status to the `data/vibration` topic.
+
+```
+bash-5.2# python3 shadow.py 
+Connecting to <target-endpoint>-ats.iot.us-east-1.amazonaws.com with client ID 'shadow-ratchet'...
+{'session_present': False}
+Connected!
+Updating shadow with reported motor status
+Device shadow reported properties updated
+Temperature Message Published
+Temperature Message Published
+Temperature Message Published
+Temperature Message Published
+Device Shadow delta update received
+Request received to start motor. Starting motor and vibration analysis.
+Updating shadow with reported motor status
+Device shadow reported properties updated
+Temperature Message Published
+Motor is running, Vibration Message Published
+```
+
+**To cleanup**:
+```
+./cleanup.sh
+```
+
+This clean up script will:
+- Deactiveate, disassociate, and delete the certificates
+- Delete the Policy
+- Delete the Thing
