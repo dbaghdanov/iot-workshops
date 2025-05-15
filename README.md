@@ -147,6 +147,42 @@ Then setup greengrass:
 - Configures a `config.yaml`
 - Starts a GreenGrass process
 
+```
+bash-5.2# ./setup_greengrass.sh 
+Archive:  greengrass-nucleus-latest.zip
+  inflating: GreengrassCore/META-INF/MANIFEST.MF  
+  inflating: GreengrassCore/META-INF/SIGNER.SF  
+  inflating: GreengrassCore/META-INF/SIGNER.RSA  
+  inflating: GreengrassCore/LICENSE  
+  inflating: GreengrassCore/NOTICE   
+  inflating: GreengrassCore/README.md  
+  inflating: GreengrassCore/THIRD-PARTY-LICENSES  
+  inflating: GreengrassCore/bin/greengrass.exe  
+  inflating: GreengrassCore/bin/greengrass.service.procd.template  
+  inflating: GreengrassCore/bin/greengrass.service.template  
+  inflating: GreengrassCore/bin/greengrass.xml.template  
+  inflating: GreengrassCore/bin/loader  
+  inflating: GreengrassCore/bin/loader.cmd  
+  inflating: GreengrassCore/conf/recipe.yaml  
+  inflating: GreengrassCore/lib/Greengrass.jar  
+AWS Greengrass v2.14.3
+```
+
+And run it:
+```
+bash-5.2# java -Droot="/greengrass/v2" -Dlog.store=FILE -jar ./GreengrassCore/lib/Greengrass.jar \
+  --init-config ./config.yaml \
+  --component-default-user ggc_user:ggc_group
+Creating user ggc_user 
+ggc_user created 
+Creating group ggc_group 
+ggc_group created 
+Added ggc_user to ggc_group 
+Launching Nucleus...
+Launched Nucleus successfully.
+```
+
 Because this is running in a docker container, I chose to start GreenGrass as a process.  Open a new shell and view the status of `tail -f /greengrass/v2/logs/greengrass.log`
 
 Next: create an IoT Deployment which our GreenGrass process will listen to
+
