@@ -121,7 +121,7 @@ This clean up script will:
 
 ## Lab 35
 
-[lab 35](https://catalog.workshops.aws/aws-iot-immersionday-workshop/en-US/aws-greengrassv2/lab35-greengrassv2-basics)
+[Lab 35 - Setting up AWS IoT GreengrassV2](https://catalog.workshops.aws/aws-iot-immersionday-workshop/en-US/aws-greengrassv2/lab35-greengrassv2-basics)
 
 Setup for this is a little more involved.
 
@@ -130,11 +130,12 @@ Setup for this is a little more involved.
 ```
 cd labs/5
 chmod 744 setup.sh cleanup.sh
-./setup.sh
-./setup_greengrass.sh
+./01_setup.sh
+./02_setup_greengrass.sh
+./03_setup_deployment.sh
 ```
 
-This will setup:
+`01_setup.sh` will setup:
 - Create a IoT Thing
 - Create a IoT Thing Group
 - Create an attach the IoT Policy
@@ -142,13 +143,19 @@ This will setup:
 - Create an IAM Role and Policy
 - Create an IoT Role Alias to the IAM Role
 
-Then setup greengrass:
+`02_setup_greengrass.sh` will:
 - Installs the latest greengrass-nucleus client
 - Configures a `config.yaml`
 - Starts a GreenGrass process
 
+Open a new shell/terminal to continue:
+
+`03_setup_deployment.sh` will:
+- Create a Deployment which installs the aws.greengrass.cli on clients
+
+
 ```
-bash-5.2# ./setup_greengrass.sh 
+bash-5.2# ./02_setup_greengrass.sh 
 Archive:  greengrass-nucleus-latest.zip
   inflating: GreengrassCore/META-INF/MANIFEST.MF  
   inflating: GreengrassCore/META-INF/SIGNER.SF  
@@ -168,7 +175,7 @@ Archive:  greengrass-nucleus-latest.zip
 AWS Greengrass v2.14.3
 ```
 
-And run it:
+Which will start a Greengrass process:
 ```
 bash-5.2# java -Droot="/greengrass/v2" -Dlog.store=FILE -jar ./GreengrassCore/lib/Greengrass.jar \
   --init-config ./config.yaml \
@@ -182,7 +189,15 @@ Launching Nucleus...
 Launched Nucleus successfully.
 ```
 
-Because this is running in a docker container, I chose to start GreenGrass as a process.  Open a new shell and view the status of `tail -f /greengrass/v2/logs/greengrass.log`
+Because this is running in a docker container, I chose to start GreenGrass as a process.  Open a new terminal and view the status of `tail -f /greengrass/v2/logs/greengrass.log`
 
-Next: create an IoT Deployment which our GreenGrass process will listen to
+After running `03_setup_deployment.sh` you should see this in the greengrass.log:
+```
+[INFO] (pool-3-thread-5) com.aws.greengrass.deployment.DeploymentService: deployment-task-execution. Starting deployment task. {Deployment service config={ComponentToGroups={aws.greengrass.Cli....
+```
 
+
+**To cleanup**:
+```
+./cleanup.sh
+```

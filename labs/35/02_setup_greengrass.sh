@@ -3,6 +3,7 @@ source ./vars.env
 curl -s https://d2s8p88vqu9w66.cloudfront.net/releases/greengrass-nucleus-latest.zip > greengrass-nucleus-latest.zip
 unzip greengrass-nucleus-latest.zip -d GreengrassCore && rm greengrass-nucleus-latest.zip
 version=$(java -jar ./GreengrassCore/lib/Greengrass.jar --version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+echo "export version=$version" >> vars.env
 echo "AWS Greengrass v$version"
 
 sed -i "s|certificateFilePath: .*|certificateFilePath: \"$(realpath ./certificate.pem)\"|" config.yaml

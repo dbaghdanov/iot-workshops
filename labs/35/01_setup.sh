@@ -18,7 +18,9 @@ echo "export iam_policy_name=$iam_policy_name" >> vars.env
 echo "export iam_role_name=$iam_role_name" >> vars.env
 echo "export iot_role_alias=$iot_role_alias" >> vars.env
 
-aws iot create-thing-group --thing-group-name $thing_group
+thing_group_arn=$(aws iot create-thing-group --thing-group-name $thing_group --query 'thingGroupArn' --output text)
+echo "export thing_group_arn=$thing_group_arn" >> vars.env
+
 aws iot create-thing --thing-name $thing_name
 aws iot add-thing-to-thing-group --thing-group-name $thing_group --thing-name $thing_name
 aws iot create-policy --policy-name $policy_name --policy-document file://iot-policy.json
