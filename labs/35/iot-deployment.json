@@ -1,0 +1,24 @@
+{
+    "targetArn": "$thing_group_arn",
+    "deploymentName": "LAB 35 Deployment of greengrass.cli",
+    "components": {
+        "aws.greengrass.Cli": {
+            "componentVersion": "$version"
+        }
+    },
+    "deploymentPolicies": {
+        "failureHandlingPolicy": "ROLLBACK",
+        "componentUpdatePolicy": {
+            "timeoutInSeconds": 60,
+            "action": "NOTIFY_COMPONENTS"
+        },
+        "configurationValidationPolicy": {
+            "timeoutInSeconds": 30
+        }
+    },
+    "iotJobConfiguration": {
+        "jobExecutionsRolloutConfig": {
+            "maximumPerMinute": 1000
+        }
+    }
+}
