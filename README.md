@@ -117,3 +117,36 @@ This clean up script will:
 - Deactiveate, disassociate, and delete the certificates
 - Delete the Policy
 - Delete the Thing
+
+
+## Lab 35
+
+[lab 35](https://catalog.workshops.aws/aws-iot-immersionday-workshop/en-US/aws-greengrassv2/lab35-greengrassv2-basics)
+
+Setup for this is a little more involved.
+
+
+**To setup**:
+```
+cd labs/5
+chmod 744 setup.sh cleanup.sh
+./setup.sh
+./setup_greengrass.sh
+```
+
+This will setup:
+- Create a IoT Thing
+- Create a IoT Thing Group
+- Create an attach the IoT Policy
+- Create and attach a certificate and download the keys
+- Create an IAM Role and Policy
+- Create an IoT Role Alias to the IAM Role
+
+Then setup greengrass:
+- Installs the latest greengrass-nucleus client
+- Configures a `config.yaml`
+- Starts a GreenGrass process
+
+Because this is running in a docker container, I chose to start GreenGrass as a process.  Open a new shell and view the status of `tail -f /greengrass/v2/logs/greengrass.log`
+
+Next: create an IoT Deployment which our GreenGrass process will listen to
