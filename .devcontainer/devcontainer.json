@@ -3,6 +3,9 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
   "settings": {
     "terminal.integrated.shell.linux": "/bin/bash"
   },
