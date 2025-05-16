@@ -9,6 +9,7 @@ RUN dnf upgrade --refresh \
  unzip \
  shadow-utils \
  less \
+ procps-ng \
  && dnf clean all \
  && rm -rf /var/cache/dnf /tmp/*
 

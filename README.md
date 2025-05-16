@@ -129,7 +129,7 @@ Setup for this is a little more involved.
 **To setup**:
 ```
 cd labs/5
-chmod 744 setup.sh cleanup.sh
+chmod 744 *.sh
 ./01_setup.sh
 ./02_setup_greengrass.sh
 ./03_setup_deployment.sh
@@ -201,3 +201,106 @@ After running `03_setup_deployment.sh` you should see this in the greengrass.log
 ```
 ./cleanup.sh
 ```
+
+## Lab 50
+
+[Lab 50 - Basic Device Management](https://catalog.workshops.aws/aws-iot-immersionday-workshop/en-US/aws-iot-device-management/lab50-basicdevicemanagement)
+
+In this lab we run a python script which listens for jobs from IoT.
+
+**To setup**:
+```
+cd labs/50
+chmod 744 *.sh
+./setup.sh
+./run_lab.sh
+```
+
+`setup.sh` will setup:
+- Create a IoT Thing
+- Create an attach the IoT Policy
+- Create and attach a certificate and download the keys
+
+**To run**:
+
+`run_lab.sh` will:
+- Download the AWSIoTPythonSDK
+- Run `job_agent.py` and await instructions
+- Send a reboot job
+
+
+```
+bash-5.2# ./run_lab.sh 
+Collecting AWSIoTPythonSDK
+  Downloading AWSIoTPythonSDK-1.5.4-py2.py3-none-any.whl (80 kB)
+     |████████████████████████████████| 80 kB 2.2 MB/s            
+Installing collected packages: AWSIoTPythonSDK
+Successfully installed AWSIoTPythonSDK-1.5.4
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+      _       _                                _
+     | |     | |         /\                   | |
+     | | ___ | |__      /  \   __ _  ___ _ __ | |_
+ _   | |/ _ \| '_ \    / /\ \ / _` |/ _ \ '_ \| __|
+| |__| | (_) | |_) |  / ____ \ (_| |  __/ | | | |_
+ \____/ \___/|_.__/  /_/    \_\__, |\___|_| |_|\__|
+                               __/ |
+                              |___/
+
+Initializing...
+Connecting to <target-endpoint>-ats.iot.us-east-1.amazonaws.com
+Subscribing to $aws/things/jobagent/jobs/notify-next
+Subscribing to $aws/things/jobagent/jobs/+/get/accepted
+Subscribing to $aws/things/jobagent/jobs/+/get/rejected
+Subscribing to $aws/things/jobagent/jobs/start-next/accepted
+Subscribing to $aws/things/jobagent/jobs/start-next/rejected
+Ready
+Checking for new jobs...
+Start-next saw no execution: {"clientToken":"469aa0cd-1234-5678-9012-abcdefg1234","timestamp":1747340774}
+
+Received job iot-reboot-job-id-wi6yhgic with document {'command': 'reboot'}
+
+> Press ENTER to execute it... Executing job ID, version, number: iot-reboot-job-id-wi6yhgic, 2, 1
+With jobDocument: {"command": "reboot"}
+Sending update to AWS IoT Jobs on $aws/things/jobagent/jobs/iot-reboot-job-id-wi6yhgic/update
+Executing: reboot
+Unsubscribing from $aws/things/jobagent/jobs/notify-next
+Unsubscribing from $aws/things/jobagent/jobs/+/get/accepted
+Unsubscribing from $aws/things/jobagent/jobs/+/get/rejected
+Unsubscribing from $aws/things/jobagent/jobs/start-next/accepted
+Unsubscribing from $aws/things/jobagent/jobs/start-next/rejected
+JobAgent has rebooted
+
+      _       _                                _
+     | |     | |         /\                   | |
+     | | ___ | |__      /  \   __ _  ___ _ __ | |_
+ _   | |/ _ \| '_ \    / /\ \ / _` |/ _ \ '_ \| __|
+| |__| | (_) | |_) |  / ____ \ (_| |  __/ | | | |_
+ \____/ \___/|_.__/  /_/    \_\__, |\___|_| |_|\__|
+                               __/ |
+                              |___/
+
+Initializing...
+Connecting to a1bt8cjpr3x541-ats.iot.us-east-1.amazonaws.com
+Subscribing to $aws/things/jobagent/jobs/notify-next
+Subscribing to $aws/things/jobagent/jobs/+/get/accepted
+Subscribing to $aws/things/jobagent/jobs/+/get/rejected
+Subscribing to $aws/things/jobagent/jobs/start-next/accepted
+Subscribing to $aws/things/jobagent/jobs/start-next/rejected
+Ready
+Checking for new jobs...
+```
+
+
+**To cleanup**:
+```
+./cleanup.sh
+```
+
+NOTES:
+
+AWS has a list of managed job templates which include tasks such as:
+- starting/stopping services
+- downloading files
+- running commands
+- etc
